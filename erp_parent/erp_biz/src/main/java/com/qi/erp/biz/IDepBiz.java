@@ -17,6 +17,12 @@ public interface IDepBiz {
 	public List<Dep> getList();
 	
 	/**
+	 * 新增
+	 * @param dep
+	 */
+	public void add(Dep dep);
+	
+	/**
 	 * 分页
 	 * @param dep1
 	 * @return

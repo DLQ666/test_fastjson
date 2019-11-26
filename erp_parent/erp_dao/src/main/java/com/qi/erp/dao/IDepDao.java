@@ -29,5 +29,11 @@ public interface IDepDao {
 	 * @return
 	 */
 	public long getCount(Dep dep1, Dep dep2, Object param);
+	
+	/**
+	 * 新增
+	 * @param dep
+	 */
+	public void add(Dep dep);
 
 }

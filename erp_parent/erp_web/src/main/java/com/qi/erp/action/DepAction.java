@@ -26,7 +26,8 @@ public class DepAction {
 		this.depBiz = depBiz;
 	}
 
-	// dep1属性驱动
+	// dep1属性驱动 ：条件查询
+	
 	private Dep dep1;
 	private Dep dep2;
 	private Object param;
@@ -86,6 +87,36 @@ public class DepAction {
 		write(jsonString);
 	}
 
+	//新增属性驱动
+	private Dep dep;
+
+	public Dep getDep() {
+		return dep;
+	}
+
+	public void setDep(Dep dep) {
+		this.dep = dep;
+	}
+
+	/**
+	 * 新增
+	 */
+	public void add() {
+		//{"sucess"：true，"message":""}
+		//返回前端的JSon数据
+		Map<String, Object> rtn = new HashMap<String, Object>();
+		try {
+			depBiz.add(dep);
+			rtn.put("success", true);
+			rtn.put("message", "新增成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			rtn.put("success", false);
+			rtn.put("message", "新增失败");
+		}
+		write(JSON.toJSONString(rtn));
+	}
+
 	/**
 	 * 条件查询
 	 */
@@ -102,10 +133,10 @@ public class DepAction {
 		
 	}
 	private void write(String jsonString) {
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setCharacterEncoding("utf-8");
 		try {
-			response.getWriter().print(jsonString);
+			HttpServletResponse response = ServletActionContext.getResponse();
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().write(jsonString);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

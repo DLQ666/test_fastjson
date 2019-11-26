@@ -19,8 +19,16 @@
 				{field:'tele',title:'部门电话',width:100}
 		    ]],
 		    pagination:true,
-		    singleSelect:true
+		    singleSelect:true,
+		    toolbar: [{
+		    	text:'新增',
+				iconCls: 'icon-add',
+				handler: function(){
+					$('#editDlg').dialog('open');
+				}
+			}]
 		});
+		
 		$('#btnSearch').bind('click',function() {
 			//表单searchForm的数据转换为json对象
 			var formData=$('#searchForm').serializeJSON();
@@ -28,11 +36,32 @@
 			//alert(JSON.stringify(formData));
 			$('#grid').datagrid('load',formData);
 		});
-		function test() {
-			var data = $('#grid').datagrid('getData');
-			alert(JSON.stringify(formData));
-		}
 		
+		$('#editDlg').dialog({    
+		    title: '部门编辑',
+		    width: 350,
+		    height: 200,
+		    closed: true, //窗口是否未关闭状态，true：表示关闭    
+		    modal: true
+		});   
+		
+		$('#btnSave').bind('click',function() {
+			var formData = $('#editForm').serializeJSON();
+			$.ajax({
+				url: 'dep_add',
+				data: formData,
+				dataType: 'json',
+				type: 'post',
+				success: function(rtn){
+					$.messager.alert("提示",rtn.message,'info',function(){
+						//成功的话我们要关闭窗口
+						$('#editDlg').dialog('close');
+						//刷新表格数据
+						$('#grid').datagrid('reload');
+					});
+				}
+			})
+		})
 	});
 	
 
@@ -40,27 +69,38 @@
 </head>
 
 <body>
-<div class="easyui-panel" style="padding-left: 4px;border-bottom: 0px;">
-<div style="height: 2px;"></div>
-<form id="searchForm">
-	<table>
-		<tr>
-			<td>部门名称</td>
-			<td>
-				<input name="dep1.name">
-			</td>
-		</tr>
-		<tr>
-			<td>部门电话</td>
-			<td>
-				<input name="dep1.tele">
-			</td>
-		</tr>
-	</table>
-		<button id="btnSearch" type="button">查询</button>
-</form>
-<div style="height: 2px;"></div>
-</div>
+	<div class="easyui-panel" style="padding-left: 4px; border-bottom: 0px;">
+		<div style="height: 2px;"></div>
+		<form id="searchForm">
+			<table>
+				<tr>
+					<td>部门名称</td>
+					<td><input name="dep1.name"></td>
+					<td>部门电话</td>
+					<td><input name="dep1.tele"></td>
+					<td>
+						<button id="btnSearch" type="button">查询</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+		<div style="height: 2px;"></div>
+	</div>
 	<table id="grid"></table>
+	<div id="editDlg">
+		<form id="editForm">
+			<table>
+				<tr>
+					<td>部门名称</td>
+					<td><input name="dep.name"></td>
+				</tr>
+				<tr>
+					<td>部门电话</td>
+					<td><input name="dep.tele"></td>
+				</tr>
+			</table>
+			<button id="btnSave" type="button">保存</button>
+		</form>
+	</div>
 </body>
 </html>

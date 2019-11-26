@@ -24,6 +24,14 @@ public class DepBiz implements IDepBiz {
 	public List<Dep> getList() {
 		return depDao.getList();
 	}
+	
+	/**
+	 * 新增
+	 */
+	@Override
+	public void add(Dep dep) {
+		depDao.add(dep);
+	}
 
 	/**
 	 * 分页
@@ -38,4 +46,5 @@ public class DepBiz implements IDepBiz {
 		return depDao.getCount(dep1,dep2,param);
 	}
 
+	
 }

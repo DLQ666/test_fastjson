@@ -32,7 +32,14 @@ public class DepDao extends HibernateDaoSupport implements IDepDao {
 		DetachedCriteria dc= getDetachedCriteria(dep1);
 		return (List<Dep>) getHibernateTemplate().findByCriteria(dc, firstResult, maxResults);
 	}
-
+	
+	/**
+	 *新增
+	 */
+	@Override
+	public void add(Dep dep) {
+		this.getHibernateTemplate().save(dep);
+	}
 	/**
 	 *记录条件查询的总记录数
 	 */
@@ -55,5 +62,7 @@ public class DepDao extends HibernateDaoSupport implements IDepDao {
 		}
 		return dc;
 	}
+
+	
 
 }
